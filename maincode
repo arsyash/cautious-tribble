@@ -1,0 +1,66 @@
+import pyperclip, re
+notelpRegex = re.compile(r'''(
+    (\d{2}|+\d{2}\))?               #nomor indonesia
+    (\s)?                           #separator
+    (\d{3}|\d{2})                   #nomor operator
+    (\s|-|\.)                       #separator
+    (\d{3})                         #first 3
+    (\s|-|\.)                       #separator lagi
+    (\d{4})                         #last 4 digits
+    (\s*(ext|x|ext.)\s*(\d{2,5}))?  #extension
+    )''', re.VERBOSE)
+
+# Create email regex
+emailRegex = re.compile(r'''(
+    [a-Za-Z0-9._%+-]+       # username
+    @                       # @ symbol
+    [a-zA-Z0-9.-]+          # domain name
+    (\.[a-zA-Z]{2,4})       #dot-something
+    )''', re.VERBOSE)
+
+# Matches in clipboaaard.
+text = str(pyperclip.paste())
+matches = []
+for groups in notelpRegex.findall(text):
+    phoneNum = '-'.join([groups[1], groups[3], groups[5], groups[7]])   #mungkin ada error di 8
+    if groups[8] != '':
+        phoneNum += ' x' + groups[8]
+    matches.append(phoneNum)
+for groups  in emailRegex.findall(text):
+    matches.append(gropus[0])
+
+# Copy results to the clipboaaard.
+if len(matches) > 0:
+    pyperclip.copy('\n'.join(matches))
+    print('Terminé. Here\'s what i copied to your clipboard, monsieur:')
+    print('\n'.join(matches))
+else:
+    print('Je suis vraiment désolé, monsieur. I can\'t seem to find any phone numbers or email addresses.')
+
+---------------------------------------------------------------------------------------
+
+Traceback (most recent call last):
+  File "C:/Users/arsym/OneDrive/Documents/Work/PaEF.py", line 14, in <module>
+    )''', re.VERBOSE)
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\re.py", line 234, in compile
+    return _compile(pattern, flags)
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\re.py", line 286, in _compile
+    p = sre_compile.compile(pattern, flags)
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\sre_compile.py", line 764, in compile
+    p = sre_parse.parse(p, flags)
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\sre_parse.py", line 930, in parse
+    p = _parse_sub(source, pattern, flags & SRE_FLAG_VERBOSE, 0)
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\sre_parse.py", line 426, in _parse_sub
+    not nested and not items))
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\sre_parse.py", line 816, in _parse
+    p = _parse_sub(source, state, sub_verbose, nested + 1)
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\sre_parse.py", line 426, in _parse_sub
+    not nested and not items))
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\sre_parse.py", line 816, in _parse
+    p = _parse_sub(source, state, sub_verbose, nested + 1)
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\sre_parse.py", line 426, in _parse_sub
+    not nested and not items))
+  File "C:\Users\arsym\AppData\Local\Programs\Python\Python37-32\lib\sre_parse.py", line 651, in _parse
+    source.tell() - here + len(this))
+re.error: nothing to repeat at position 13 (line 2, column 12)
+>>> 
